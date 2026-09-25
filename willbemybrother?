@@ -1,0 +1,722 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+
+  <!-- Membuat tampilan responsive di HP -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Will Be My Brother? 💗</title>
+
+  <!-- Google Font: rounded, cute, tetapi tetap readable -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    /* =====================================================
+       CSS
+       ===================================================== */
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow: hidden;
+      font-family: "Quicksand", sans-serif;
+
+      /* Soft pastel background */
+      background:
+        radial-gradient(circle at 15% 20%, #ffffff 0 4%, transparent 18%),
+        radial-gradient(circle at 85% 75%, #eee7ff 0 3%, transparent 20%),
+        linear-gradient(135deg, #fff4f7, #fffaf3 50%, #f5f0ff);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      color: #5d5360;
+      position: relative;
+    }
+
+    /* =====================================================
+       BACKGROUND DECORATIONS
+       ===================================================== */
+
+    .background-decor {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .decor {
+      position: absolute;
+      opacity: 0.65;
+      animation: floatAround 5s ease-in-out infinite;
+      user-select: none;
+    }
+
+    .decor:nth-child(1) {
+      top: 10%;
+      left: 10%;
+      font-size: 25px;
+      animation-delay: 0s;
+    }
+
+    .decor:nth-child(2) {
+      top: 18%;
+      right: 13%;
+      font-size: 18px;
+      animation-delay: 1s;
+    }
+
+    .decor:nth-child(3) {
+      bottom: 18%;
+      left: 12%;
+      font-size: 20px;
+      animation-delay: 2s;
+    }
+
+    .decor:nth-child(4) {
+      bottom: 12%;
+      right: 15%;
+      font-size: 27px;
+      animation-delay: 0.5s;
+    }
+
+    .decor:nth-child(5) {
+      top: 45%;
+      left: 5%;
+      font-size: 15px;
+      animation-delay: 1.5s;
+    }
+
+    .decor:nth-child(6) {
+      top: 55%;
+      right: 6%;
+      font-size: 16px;
+      animation-delay: 2.5s;
+    }
+
+    @keyframes floatAround {
+      0%, 100% {
+        transform: translateY(0) rotate(-5deg);
+      }
+
+      50% {
+        transform: translateY(-14px) rotate(5deg);
+      }
+    }
+
+    /* =====================================================
+       MAIN CARD
+       ===================================================== */
+
+    .card {
+      position: relative;
+      z-index: 2;
+
+      width: min(90%, 430px);
+      padding: 42px 30px 35px;
+
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(255, 190, 210, 0.45);
+      border-radius: 30px;
+
+      box-shadow:
+        0 20px 60px rgba(180, 130, 155, 0.15),
+        0 5px 20px rgba(180, 130, 155, 0.08);
+
+      text-align: center;
+
+      /* Card entrance animation */
+      animation: cardAppear 1s ease forwards;
+    }
+
+    @keyframes cardAppear {
+      from {
+        opacity: 0;
+        transform: translateY(25px) scale(0.95);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Cute little top decoration */
+    .mini-heart {
+      font-size: 30px;
+      margin-bottom: 12px;
+      animation: heartbeat 1.8s ease-in-out infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.15);
+      }
+    }
+
+    /* =====================================================
+       TEXT
+       ===================================================== */
+
+    h1 {
+      color: #765f72;
+      font-size: clamp(25px, 7vw, 34px);
+      line-height: 1.25;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .subtitle {
+      color: #8c7d88;
+      font-size: 14px;
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+
+    /* =====================================================
+       BUTTONS
+       ===================================================== */
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+
+      min-height: 52px;
+      position: relative;
+    }
+
+    button {
+      border: none;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 14px;
+
+      padding: 13px 20px;
+      border-radius: 999px;
+
+      cursor: pointer;
+      transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
+
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    #yesButton {
+      background: #f5a9bd;
+      color: white;
+
+      box-shadow: 0 7px 18px rgba(245, 169, 189, 0.3);
+    }
+
+    #yesButton:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 10px 23px rgba(245, 169, 189, 0.38);
+    }
+
+    #noButton {
+      background: #eee8f7;
+      color: #776b7d;
+
+      position: relative;
+    }
+
+    #noButton:hover {
+      transform: scale(1.03);
+    }
+
+    /* =====================================================
+       SUCCESS STATE
+       ===================================================== */
+
+    .success .mini-heart {
+      animation: bigHeart 0.7s ease infinite alternate;
+    }
+
+    @keyframes bigHeart {
+      from {
+        transform: scale(1);
+      }
+
+      to {
+        transform: scale(1.25);
+      }
+    }
+
+    .success h1 {
+      animation: popText 0.6s ease;
+    }
+
+    @keyframes popText {
+      0% {
+        transform: scale(0.7);
+        opacity: 0;
+      }
+
+      70% {
+        transform: scale(1.08);
+      }
+
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    /* =====================================================
+       FLOATING HEARTS CREATED BY JAVASCRIPT
+       ===================================================== */
+
+    .floating-heart {
+      position: fixed;
+      bottom: -30px;
+
+      pointer-events: none;
+      z-index: 10;
+
+      animation: riseUp linear forwards;
+    }
+
+    @keyframes riseUp {
+      0% {
+        opacity: 0;
+        transform: translateY(0) rotate(0deg) scale(0.7);
+      }
+
+      15% {
+        opacity: 0.8;
+      }
+
+      100% {
+        opacity: 0;
+        transform:
+          translateY(-110vh)
+          rotate(25deg)
+          scale(1.2);
+      }
+    }
+
+    /* =====================================================
+       CONFETTI
+       ===================================================== */
+
+    .confetti {
+      position: fixed;
+      top: -20px;
+
+      width: 8px;
+      height: 8px;
+
+      pointer-events: none;
+      z-index: 20;
+
+      animation: confettiFall 2.5s ease-out forwards;
+    }
+
+    @keyframes confettiFall {
+      0% {
+        opacity: 1;
+        transform:
+          translateY(0)
+          rotate(0deg);
+      }
+
+      100% {
+        opacity: 0;
+        transform:
+          translateY(110vh)
+          translateX(var(--move-x))
+          rotate(720deg);
+      }
+    }
+
+    /* =====================================================
+       MOBILE
+       ===================================================== */
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 35px 22px 30px;
+        border-radius: 26px;
+      }
+
+      h1 {
+        font-size: 27px;
+      }
+
+      .subtitle {
+        font-size: 13px;
+      }
+
+      .buttons {
+        gap: 8px;
+      }
+
+      button {
+        padding: 12px 17px;
+        font-size: 13px;
+      }
+    }
+
+    /* Mengurangi animasi jika user mengaktifkan
+       accessibility setting "reduced motion" */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =====================================================
+       HTML
+       Background decorations
+       ===================================================== -->
+
+  <div class="background-decor" aria-hidden="true">
+    <span class="decor">♡</span>
+    <span class="decor">✦</span>
+    <span class="decor">☁️</span>
+    <span class="decor">♡</span>
+    <span class="decor">✧</span>
+    <span class="decor">✦</span>
+  </div>
+
+
+  <!-- =====================================================
+       HTML
+       Main card
+       ===================================================== -->
+
+  <main class="card" id="card">
+
+    <div class="mini-heart">♡</div>
+
+    <h1 id="title">
+      Will You Be My Brother? 🥺💗
+    </h1>
+
+    <p class="subtitle" id="subtitle">
+      I promise I’ll be a good little sibling hehe &gt;&lt;
+    </p>
+
+    <div class="buttons">
+
+      <!-- Tombol YES -->
+      <button id="yesButton">
+        YES! 💗
+      </button>
+
+      <!-- Tombol yang akan kabur -->
+      <button id="noButton">
+        Hmm… 🥺
+      </button>
+
+    </div>
+
+  </main>
+
+
+  <script>
+    /* =====================================================
+       JAVASCRIPT
+       ===================================================== */
+
+    // Mengambil elemen yang diperlukan
+    const card = document.getElementById("card");
+    const title = document.getElementById("title");
+    const subtitle = document.getElementById("subtitle");
+
+    const yesButton = document.getElementById("yesButton");
+    const noButton = document.getElementById("noButton");
+
+    // Variasi teks ketika tombol "Hmm..." ditekan
+    const noTexts = [
+      "Are you sure? 🥺",
+      "Think again hehe…",
+      "Pleaseee? 👉👈",
+      "I’ll be a good sibling, promise! 😭",
+      "Just say yes hehe 🥹",
+      "One little yes? 💗"
+    ];
+
+    let noTextIndex = 0;
+
+
+    /* =====================================================
+       TOMBOL "HMM..."
+       ===================================================== */
+
+    noButton.addEventListener("click", () => {
+
+      // Ganti teks tombol
+      noButton.textContent = noTexts[noTextIndex];
+
+      noTextIndex++;
+
+      // Mengulang kembali ke teks pertama
+      if (noTextIndex >= noTexts.length) {
+        noTextIndex = 0;
+      }
+
+      // Membuat tombol berpindah dengan posisi random
+      moveNoButton();
+
+    });
+
+
+    function moveNoButton() {
+
+      // Mengubah position menjadi fixed supaya
+      // tombol bisa bergerak bebas di layar
+      noButton.style.position = "fixed";
+
+      // Batas aman agar tombol tidak keluar layar
+      const padding = 20;
+
+      const buttonWidth = noButton.offsetWidth;
+      const buttonHeight = noButton.offsetHeight;
+
+      const maxX = window.innerWidth - buttonWidth - padding;
+      const maxY = window.innerHeight - buttonHeight - padding;
+
+      // Posisi random
+      const randomX =
+        Math.max(
+          padding,
+          Math.random() * maxX
+        );
+
+      const randomY =
+        Math.max(
+          padding,
+          Math.random() * maxY
+        );
+
+      // Animasi perpindahan
+      noButton.animate(
+        [
+          {
+            transform: "scale(0.8) rotate(-8deg)",
+            opacity: 0.4
+          },
+          {
+            transform: "scale(1.05) rotate(5deg)",
+            opacity: 1
+          },
+          {
+            transform: "scale(1) rotate(0deg)"
+          }
+        ],
+        {
+          duration: 400,
+          easing: "ease-out"
+        }
+      );
+
+      noButton.style.left = `${randomX}px`;
+      noButton.style.top = `${randomY}px`;
+    }
+
+
+    /* =====================================================
+       TOMBOL "YES!"
+       ===================================================== */
+
+    yesButton.addEventListener("click", () => {
+
+      // Mengubah isi card
+      title.textContent =
+        "YAYYY!! I HAVE A BROTHER NOW! 🥹💗";
+
+      subtitle.textContent =
+        "Thank you for accepting me hehe ♡";
+
+      // Menambahkan class success
+      card.classList.add("success");
+
+      // Menghilangkan tombol supaya fokus ke pesan
+      yesButton.style.display = "none";
+      noButton.style.display = "none";
+
+      // Jalankan efek perayaan
+      createConfetti();
+      createHeartBurst();
+    });
+
+
+    /* =====================================================
+       CONFETTI
+       ===================================================== */
+
+    function createConfetti() {
+
+      const confettiSymbols = [
+        "♡",
+        "♥",
+        "✦",
+        "✧",
+        "⋆"
+      ];
+
+      // Membuat banyak confetti
+      for (let i = 0; i < 45; i++) {
+
+        const confetti = document.createElement("span");
+
+        confetti.classList.add("confetti");
+
+        // Random simbol
+        confetti.textContent =
+          confettiSymbols[
+            Math.floor(
+              Math.random() * confettiSymbols.length
+            )
+          ];
+
+        // Random posisi horizontal
+        confetti.style.left =
+          Math.random() * 100 + "vw";
+
+        // Random ukuran
+        const size =
+          Math.random() * 10 + 7;
+
+        confetti.style.fontSize =
+          size + "px";
+
+        // Random arah jatuh
+        confetti.style.setProperty(
+          "--move-x",
+          `${(Math.random() - 0.5) * 300}px`
+        );
+
+        // Random durasi
+        confetti.style.animationDuration =
+          `${Math.random() * 1.5 + 1.8}s`;
+
+        document.body.appendChild(confetti);
+
+        // Hapus setelah animasi selesai
+        setTimeout(() => {
+          confetti.remove();
+        }, 3500);
+      }
+    }
+
+
+    /* =====================================================
+       HEART BURST
+       ===================================================== */
+
+    function createHeartBurst() {
+
+      const hearts = [
+        "💗",
+        "♡",
+        "♥",
+        "💖",
+        "✦",
+        "✨"
+      ];
+
+      for (let i = 0; i < 18; i++) {
+
+        const heart =
+          document.createElement("span");
+
+        heart.classList.add("floating-heart");
+
+        heart.textContent =
+          hearts[
+            Math.floor(
+              Math.random() * hearts.length
+            )
+          ];
+
+        heart.style.left =
+          Math.random() * 100 + "vw";
+
+        heart.style.fontSize =
+          `${Math.random() * 15 + 12}px`;
+
+        heart.style.animationDuration =
+          `${Math.random() * 2 + 3}s`;
+
+        heart.style.animationDelay =
+          `${Math.random() * 0.8}s`;
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+          heart.remove();
+        }, 5500);
+      }
+    }
+
+
+    /* =====================================================
+       SUBTLE BACKGROUND HEARTS
+       ===================================================== */
+
+    // Membuat beberapa hearts kecil yang naik perlahan
+    function createBackgroundHeart() {
+
+      const heart =
+        document.createElement("span");
+
+      heart.classList.add("floating-heart");
+
+      heart.textContent =
+        Math.random() > 0.5 ? "♡" : "✦";
+
+      heart.style.left =
+        Math.random() * 100 + "vw";
+
+      heart.style.fontSize =
+        `${Math.random() * 8 + 9}px`;
+
+      heart.style.animationDuration =
+        `${Math.random() * 5 + 6}s`;
+
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 12000);
+    }
+
+    // Tambahkan background decoration secara berkala
+    setInterval(createBackgroundHeart, 1800);
+
+  </script>
+
+</body>
+</html>
+```
