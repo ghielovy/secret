@@ -1,0 +1,545 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Someday — Dream it. Plan it. Save for it.</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap');
+
+:root {
+  --blue:#7da9dc;
+  --blue-dark:#477bb7;
+  --blue-light:#eaf3ff;
+  --blue-pale:#f5f9ff;
+  --ink:#31445e;
+  --muted:#8796aa;
+  --white:#fff;
+  --pink:#f4cbd8;
+  --green:#9ccbb5;
+  --line:#e8eef6;
+  --shadow:0 8px 30px rgba(76,115,164,.08);
+}
+* {box-sizing:border-box}
+body {
+  margin:0;
+  background:#f7faff;
+  color:var(--ink);
+  font-family:'DM Sans',sans-serif;
+}
+button,input,select {font:inherit}
+button {cursor:pointer}
+.app {display:flex;min-height:100vh}
+.sidebar {
+  width:245px;background:white;padding:30px 20px;
+  border-right:1px solid var(--line);position:fixed;
+  inset:0 auto 0 0;z-index:5;display:flex;flex-direction:column;
+}
+.brand {font-family:'Playfair Display',serif;font-size:30px;color:var(--blue-dark)}
+.brand small {display:block;font:11px 'DM Sans';color:var(--muted);margin-top:5px;letter-spacing:1px}
+.nav-label {font-size:10px;letter-spacing:1.5px;color:#a4afbd;margin:35px 10px 12px}
+.nav-btn {
+  width:100%;border:0;background:transparent;color:#78889c;
+  padding:13px 14px;border-radius:12px;text-align:left;
+  margin:3px 0;font-size:13px;font-weight:600;
+}
+.nav-btn:hover,.nav-btn.active {background:var(--blue-light);color:var(--blue-dark)}
+.sidebar-note {
+  margin-top:auto;background:var(--blue-pale);border-radius:16px;
+  padding:16px;font-size:12px;line-height:1.7;color:#7188a5;
+}
+.main {margin-left:245px;width:calc(100% - 245px);padding:32px 42px 55px}
+.topbar {display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;gap:12px}
+.eyebrow {font-size:11px;letter-spacing:1.5px;color:var(--blue-dark);font-weight:700}
+h1 {font-family:'Playfair Display',serif;font-size:30px;margin:8px 0;color:#344c69}
+.subtitle {font-size:13px;color:var(--muted)}
+.date-pill {background:white;border:1px solid var(--line);padding:10px 15px;border-radius:30px;font-size:12px;color:#74869c}
+.page {display:none}
+.page.active {display:block}
+.hero {
+  background:linear-gradient(115deg,#dcecff,#eef5ff 65%,#f9eff5);
+  padding:28px 30px;border-radius:20px;margin-bottom:22px;
+  display:flex;align-items:center;justify-content:space-between;gap:15px;
+}
+.hero h2 {font-family:'Playfair Display',serif;font-size:25px;margin:0 0 8px}
+.hero p {font-size:12px;color:#7186a1;margin:0}
+.hero-emoji {font-size:52px}
+.stats {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;margin-bottom:22px}
+.stat,.panel,.item-card {
+  background:white;border:1px solid var(--line);border-radius:17px;
+  padding:19px;box-shadow:var(--shadow);
+}
+.stat-label {font-size:11px;color:var(--muted);margin-bottom:12px}
+.stat-value {font-size:22px;font-weight:800;letter-spacing:-.5px}
+.stat-foot {font-size:10px;color:#91a1b4;margin-top:7px}
+.panel {margin-bottom:20px}
+.panel-head {display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:18px}
+.panel h3 {font-size:14px;margin:0}
+.panel-sub {font-size:11px;color:var(--muted);margin-top:5px}
+.grid-2 {display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.progress-track {height:9px;background:#edf2f8;border-radius:20px;overflow:hidden;margin:12px 0}
+.progress-fill {height:100%;background:var(--blue);border-radius:20px;transition:width .3s}
+.progress-fill.green {background:var(--green)}
+.progress-fill.pink {background:var(--pink)}
+.progress-info {display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}
+.btn {
+  border:0;border-radius:10px;background:var(--blue-dark);color:white;
+  padding:10px 15px;font-size:11px;font-weight:700;
+}
+.btn:hover {opacity:.85}
+.btn-light {background:var(--blue-light);color:var(--blue-dark)}
+.btn-danger {background:#fff0f1;color:#c77b87}
+.btn-small {padding:7px 10px;font-size:10px}
+.actions {display:flex;gap:7px;flex-wrap:wrap}
+.section-head {display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;gap:10px}
+.section-head h2 {font-family:'Playfair Display',serif;font-size:25px;margin:0}
+.cards {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.item-card {padding:16px;min-width:0}
+.item-icon {
+  height:100px;background:var(--blue-pale);border-radius:12px;
+  display:grid;place-items:center;font-size:37px;margin-bottom:13px;
+}
+.item-card h3 {font-size:14px;margin:0 0 5px;overflow-wrap:anywhere}
+.item-card p {font-size:11px;color:var(--muted);margin:5px 0}
+.tag {display:inline-block;padding:5px 8px;border-radius:20px;background:var(--blue-light);color:var(--blue-dark);font-size:9px;font-weight:700}
+.empty {text-align:center;padding:35px 15px;color:var(--muted);font-size:12px}
+.empty span {display:block;font-size:35px;margin-bottom:10px}
+.table-wrap {overflow-x:auto}
+table {width:100%;border-collapse:collapse;font-size:12px}
+th,td {padding:13px 9px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+th {font-size:10px;color:var(--muted);font-weight:600}
+.income {color:#5b9d7c;font-weight:700}
+.expense {color:#c47c91;font-weight:700}
+.form-grid {display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.field {display:flex;flex-direction:column;gap:6px}
+.field.full {grid-column:1/-1}
+.field label {font-size:11px;color:#73859b;font-weight:700}
+.field input,.field select {
+  width:100%;border:1px solid var(--line);background:#fbfdff;
+  border-radius:10px;padding:11px;color:var(--ink);outline:none;font-size:12px;
+}
+.field input:focus,.field select:focus {border-color:var(--blue)}
+.modal-bg {
+  display:none;position:fixed;inset:0;background:#253b5866;
+  z-index:20;align-items:center;justify-content:center;padding:15px;
+}
+.modal-bg.show {display:flex}
+.modal {
+  background:white;width:100%;max-width:440px;max-height:90vh;
+  overflow-y:auto;border-radius:20px;padding:24px;
+}
+.modal h2 {font-family:'Playfair Display',serif;margin:0 0 20px}
+.modal-actions {display:flex;justify-content:flex-end;gap:8px;margin-top:20px}
+.week-label {font-size:11px;color:var(--muted)}
+.budget-warning {color:#c47c91;font-size:11px;margin-top:8px}
+footer {text-align:center;color:#a2afbe;font-size:10px;padding:25px}
+@media(max-width:950px) {
+  .stats {grid-template-columns:repeat(2,1fr)}
+  .cards {grid-template-columns:repeat(2,1fr)}
+  .main {padding:25px}
+}
+@media(max-width:650px) {
+  .sidebar {width:100%;height:66px;inset:auto 0 0;padding:5px 8px;border-right:0;border-top:1px solid var(--line)}
+  .brand,.nav-label,.sidebar-note {display:none}
+  .sidebar nav {display:flex;justify-content:space-around;align-items:center;height:100%}
+  .nav-btn {width:auto;flex:1;text-align:center;padding:10px 3px;font-size:9px;margin:0}
+  .main {margin:0;width:100%;padding:23px 15px 90px}
+  .topbar {align-items:flex-start}
+  h1 {font-size:25px}
+  .date-pill {font-size:9px}
+  .hero {padding:21px}
+  .hero h2 {font-size:20px}
+  .hero-emoji {font-size:37px}
+  .stats {gap:9px}
+  .stat {padding:14px}
+  .stat-value {font-size:17px}
+  .grid-2 {grid-template-columns:1fr}
+  .cards {grid-template-columns:1fr 1fr;gap:9px}
+  .item-card {padding:11px}
+  .item-icon {height:75px}
+  .section-head h2 {font-size:22px}
+  .form-grid {grid-template-columns:1fr}
+  .field.full {grid-column:auto}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand">someday<span style="color:#f0b7ca">.</span>
+    <small>DREAM IT. PLAN IT. SAVE FOR IT.</small>
+  </div>
+  <div class="nav-label">YOUR SPACE</div>
+  <nav>
+    <button class="nav-btn active" data-page="overview">⌂ &nbsp; Overview</button>
+    <button class="nav-btn" data-page="wishlist">♡ &nbsp; My Wishlist</button>
+    <button class="nav-btn" data-page="goals">✧ &nbsp; Saving Goals</button>
+    <button class="nav-btn" data-page="finance">▤ &nbsp; My Finance</button>
+  </nav>
+  <div class="sidebar-note">
+    A little progress every day adds up to big dreams. ♡<br><br>
+    Keep going, you're doing great!
+  </div>
+</aside>
+
+<main class="main">
+<header class="topbar">
+  <div>
+    <div class="eyebrow">YOUR PERSONAL MONEY SPACE</div>
+    <h1 id="pageTitle">A little closer to someday.</h1>
+    <div class="subtitle" id="pageSubtitle">Your dreams deserve a plan.</div>
+  </div>
+  <div class="date-pill" id="today"></div>
+</header>
+
+<!-- OVERVIEW -->
+<section class="page active" id="overview">
+  <div class="hero">
+    <div>
+      <h2>Dream a little. Save a little. ♡</h2>
+      <p>Small steps today, lovely things someday.</p>
+    </div>
+    <div class="hero-emoji">☁️🩵</div>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="stat-label">TOTAL SAVINGS</div><div class="stat-value" id="statSavings">Rp0</div><div class="stat-foot">Across all saving goals</div></div>
+    <div class="stat"><div class="stat-label">WISHLIST ITEMS</div><div class="stat-value" id="statWishlist">0</div><div class="stat-foot">Things you dream of</div></div>
+    <div class="stat"><div class="stat-label">WEEKLY INCOME</div><div class="stat-value" id="statIncome">Rp0</div><div class="stat-foot">Monday – Sunday</div></div>
+    <div class="stat"><div class="stat-label">WEEKLY EXPENSES</div><div class="stat-value" id="statExpense">Rp0</div><div class="stat-foot">Monday – Sunday</div></div>
+  </div>
+  <div class="grid-2">
+    <div class="panel">
+      <div class="panel-head"><div><h3>Weekly budget</h3><div class="panel-sub" id="weekRange"></div></div><button class="btn btn-light btn-small" onclick="openBudget()">Edit budget</button></div>
+      <div class="progress-info"><span>Used this week</span><b id="budgetPercent">0%</b></div>
+      <div class="progress-track"><div class="progress-fill" id="budgetBar"></div></div>
+      <div class="progress-info"><span id="budgetSpent">Rp0 spent</span><span id="budgetRemaining">Rp0 left</span></div>
+      <div id="budgetMessage" class="panel-sub" style="margin-top:14px">Set your weekly budget to get started.</div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><div><h3>Your saving progress</h3><div class="panel-sub">Every little bit counts.</div></div></div>
+      <div class="stat-value" id="goalSaved">Rp0</div>
+      <div class="panel-sub">saved from <span id="goalTarget">Rp0</span> total targets</div>
+      <div class="progress-track"><div class="progress-fill green" id="goalBar"></div></div>
+      <div class="progress-info"><span id="goalPercent">0% completed</span><span id="goalCount">0 goals</span></div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-head"><div><h3>My little dreams</h3><div class="panel-sub">A peek at your wishlist.</div></div><button class="btn btn-light btn-small" onclick="showPage('wishlist')">View all →</button></div>
+    <div class="cards" id="overviewWishlist"></div>
+  </div>
+  <div class="panel">
+    <div class="panel-head"><div><h3>Recent transactions</h3><button class="btn btn-light btn-small" onclick="showPage('finance')">View all →</button></div></div>
+    <div id="recentTransactions"></div>
+  </div>
+</section>
+
+<!-- WISHLIST -->
+<section class="page" id="wishlist">
+  <div class="section-head">
+    <div><h2>My Wishlist ♡</h2><div class="subtitle">Little things I'd love to have someday.</div></div>
+    <button class="btn" onclick="openWishlist()">+ Add item</button>
+  </div>
+  <div class="cards" id="wishlistList"></div>
+</section>
+
+<!-- GOALS -->
+<section class="page" id="goals">
+  <div class="section-head">
+    <div><h2>Saving Goals ✧</h2><div class="subtitle">Turn your wishlist into a saving plan.</div></div>
+    <button class="btn" onclick="openGoal()">+ New goal</button>
+  </div>
+  <div class="cards" id="goalList"></div>
+</section>
+
+<!-- FINANCE -->
+<section class="page" id="finance">
+  <div class="section-head">
+    <div><h2>My Finance ♡</h2><div class="subtitle">A weekly look at your money.</div></div>
+    <button class="btn" onclick="openTransaction()">+ Add transaction</button>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="stat-label">WEEKLY INCOME</div><div class="stat-value" id="financeIncome">Rp0</div></div>
+    <div class="stat"><div class="stat-label">WEEKLY EXPENSES</div><div class="stat-value" id="financeExpense">Rp0</div></div>
+    <div class="stat"><div class="stat-label">WEEKLY BALANCE</div><div class="stat-value" id="financeBalance">Rp0</div></div>
+    <div class="stat"><div class="stat-label">WEEKLY BUDGET LEFT</div><div class="stat-value" id="financeLeft">Rp0</div></div>
+  </div>
+  <div class="panel">
+    <div class="panel-head"><div><h3>Weekly budget</h3><div class="panel-sub" id="financeWeek"></div></div><button class="btn btn-light btn-small" onclick="openBudget()">Edit budget</button></div>
+    <div class="progress-info"><span>Expense usage</span><b id="financePercent">0%</b></div>
+    <div class="progress-track"><div class="progress-fill" id="financeBar"></div></div>
+    <div class="progress-info"><span id="financeSpent">Rp0 spent</span><span id="financeBudget">Budget: Rp0</span></div>
+  </div>
+  <div class="panel">
+    <div class="panel-head"><div><h3>Transaction history</h3><div class="panel-sub">Your recorded income and expenses.</div></div></div>
+    <div id="transactionList"></div>
+  </div>
+</section>
+<footer>made with love, for all your someday dreams. 🩵</footer>
+</main>
+</div>
+
+<!-- MODAL -->
+<div class="modal-bg" id="modalBg" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <h2 id="modalTitle">Add something</h2>
+    <form id="modalForm" onsubmit="submitForm(event)">
+      <div id="modalFields" class="form-grid"></div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-light" onclick="closeModal()">Cancel</button>
+        <button type="submit" class="btn">Save ♡</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+const KEY = 'someday-blue-v1';
+let data = JSON.parse(localStorage.getItem(KEY) || 'null') || {
+  wishlist: [],
+  goals: [],
+  transactions: [],
+  budget: 0
+};
+let formAction = null;
+
+const rupiah = n => 'Rp' + Number(n || 0).toLocaleString('id-ID');
+const todayISO = () => {
+  const d = new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+};
+const escapeHTML = s => String(s ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function save(){localStorage.setItem(KEY,JSON.stringify(data));render()}
+function weekStart(date=new Date()){
+  const d=new Date(date);d.setHours(0,0,0,0);
+  d.setDate(d.getDate()-((d.getDay()+6)%7));return d;
+}
+function weekEnd(date=new Date()){
+  const d=weekStart(date);d.setDate(d.getDate()+6);return d;
+}
+function fmtDate(d){return d.toLocaleDateString('id-ID',{day:'numeric',month:'short'})}
+function isThisWeek(date){
+  if(!date)return false;
+  const d=new Date(date+'T12:00:00');
+  return d>=weekStart() && d<=weekEnd();
+}
+function weekly(){
+  const tx=data.transactions.filter(t=>isThisWeek(t.date));
+  const income=tx.filter(t=>t.type==='income').reduce((a,t)=>a+Number(t.amount),0);
+  const expense=tx.filter(t=>t.type==='expense').reduce((a,t)=>a+Number(t.amount),0);
+  return {tx,income,expense,balance:income-expense};
+}
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===name));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.page===name));
+  const titles={
+    overview:['A little closer to someday.','Your dreams deserve a plan.'],
+    wishlist:['My Wishlist ♡','A little list of things I love.'],
+    goals:['Saving Goals ✧','Little by little, dream by dream.'],
+    finance:['My Finance ♡','Be kind to your money.']
+  };
+  document.getElementById('pageTitle').textContent=titles[name][0];
+  document.getElementById('pageSubtitle').textContent=titles[name][1];
+  render();
+}
+document.querySelectorAll('.nav-btn').forEach(b=>b.onclick=()=>showPage(b.dataset.page));
+
+function openModal(title,fields,action){
+  document.getElementById('modalTitle').textContent=title;
+  document.getElementById('modalFields').innerHTML=fields;
+  formAction=action;
+  document.getElementById('modalBg').classList.add('show');
+}
+function closeModal(){
+  document.getElementById('modalBg').classList.remove('show');
+  document.getElementById('modalForm').reset();
+  formAction=null;
+}
+function field(label,name,type='text',placeholder='',extra=''){
+  return `<div class="field"><label>${label}</label><input name="${name}" type="${type}" placeholder="${placeholder}" ${extra} required></div>`;
+}
+function selectField(label,name,options){
+  return `<div class="field"><label>${label}</label><select name="${name}" required>${options.map(x=>`<option value="${x[0]}">${x[1]}</option>`).join('')}</select></div>`;
+}
+function submitForm(e){
+  e.preventDefault();
+  if(!formAction)return;
+  const obj=Object.fromEntries(new FormData(e.target).entries());
+  formAction(obj);closeModal();save();
+}
+
+function openWishlist(){
+  openModal('Add to my wishlist ♡',`
+    ${field('Item name','name','text','e.g. A new laptop')}
+    ${field('Estimated price (Rp)','price','number','e.g. 8000000','min="1"')}
+    ${selectField('Category','category',[['Tech','Tech'],['Fashion','Fashion'],['Beauty','Beauty'],['Lifestyle','Lifestyle'],['Experience','Experience'],['Other','Other']])}
+    ${selectField('Priority','priority',[['High','High priority'],['Medium','Medium priority'],['Low','Low priority']])}
+    ${field('Emoji','emoji','text','e.g. 💻')}
+  `,o=>data.wishlist.push({id:Date.now(),name:o.name,price:+o.price,category:o.category,priority:o.priority,emoji:o.emoji||'♡',status:'Want it'}));
+}
+
+function openGoal(item=null){
+  const options=data.wishlist.filter(w=>!data.goals.some(g=>g.wishlistId===w.id)|| (item&&w.id===item.id));
+  const linked=item||null;
+  openModal('Create a saving goal ✧',`
+    ${field('Goal name','name','text','e.g. My dream laptop')}
+    ${field('Target amount (Rp)','target','number','e.g. 8000000','min="1"')}
+    ${field('Already saved (Rp)','saved','number','0','min="0"')}
+    ${field('Target date','date','date',todayISO())}
+    <div class="field full"><label>Connect to wishlist (optional)</label>
+    <select name="wishlistId">
+      <option value="">No wishlist connection</option>
+      ${options.map(w=>`<option value="${w.id}" ${linked&&linked.id===w.id?'selected':''}>${escapeHTML(w.name)}</option>`).join('')}
+    </select></div>
+  `,o=>{
+    const id=Date.now();
+    data.goals.push({id,name:o.name,target:+o.target,saved:+o.saved,date:o.date,wishlistId:o.wishlistId?+o.wishlistId:null});
+    updateLinkedWishlist(id);
+  });
+  if(linked)document.querySelector('[name="name"]').value=linked.name;
+  if(linked)document.querySelector('[name="target"]').value=linked.price;
+}
+
+function updateLinkedWishlist(goalId){
+  const g=data.goals.find(x=>x.id===goalId);
+  if(!g||!g.wishlistId)return;
+  const w=data.wishlist.find(x=>x.id===g.wishlistId);
+  if(w)w.status=g.saved>=g.target?'Purchased':'Saving';
+}
+function openDeposit(id){
+  const g=data.goals.find(x=>x.id===id);
+  openModal('Add to your savings ♡',`
+    <div class="field full"><label>Saving goal</label><input value="${escapeHTML(g.name)}" disabled></div>
+    <div class="field full"><label>Current savings</label><input value="${rupiah(g.saved)}" disabled></div>
+    ${field('Deposit amount (Rp)','amount','number','e.g. 100000','min="1"')}
+  `,o=>{
+    g.saved=Math.min(g.target,g.saved+(+o.amount));
+    updateLinkedWishlist(g.id);
+  });
+}
+function deleteGoal(id){
+  if(!confirm('Delete this saving goal?'))return;
+  const g=data.goals.find(x=>x.id===id);
+  if(g&&g.wishlistId){
+    const w=data.wishlist.find(x=>x.id===g.wishlistId);
+    if(w&&w.status==='Saving')w.status='Want it';
+  }
+  data.goals=data.goals.filter(x=>x.id!==id);save();
+}
+function deleteWishlist(id){
+  if(!confirm('Delete this wishlist item?'))return;
+  data.wishlist=data.wishlist.filter(x=>x.id!==id);
+  data.goals.forEach(g=>{if(g.wishlistId===id)g.wishlistId=null});
+  save();
+}
+function openTransaction(){
+  openModal('Add a transaction ♡',`
+    ${selectField('Transaction type','type',[['income','Income'],['expense','Expense']])}
+    ${field('Description','description','text','e.g. Weekly allowance')}
+    ${field('Amount (Rp)','amount','number','e.g. 650000','min="1"')}
+    ${selectField('Category','category',[['Allowance','Allowance'],['Food','Food'],['Transport','Transport'],['Shopping','Shopping'],['Education','Education'],['Savings','Savings'],['Other','Other']])}
+    ${field('Date','date','date',todayISO())}
+  `,o=>data.transactions.push({id:Date.now(),...o,amount:+o.amount}));
+}
+function deleteTransaction(id){
+  if(!confirm('Delete this transaction?'))return;
+  data.transactions=data.transactions.filter(t=>t.id!==id);save();
+}
+function openBudget(){
+  openModal('Set your weekly budget 🩵',`
+    ${field('Weekly budget (Rp)','budget','number','e.g. 650000','min="0"')}
+  `,o=>data.budget=+o.budget);
+  document.querySelector('[name="budget"]').value=data.budget;
+}
+
+function goalCard(g){
+  const percent=Math.min(100,Math.round(g.saved/g.target*100));
+  const linked=data.wishlist.find(w=>w.id===g.wishlistId);
+  return `<div class="item-card">
+    <div class="item-icon">🎯</div>
+    <h3>${escapeHTML(g.name)}</h3>
+    <p>${linked?'♡ Linked: '+escapeHTML(linked.name):'Personal saving goal'}</p>
+    <div class="progress-track"><div class="progress-fill green" style="width:${percent}%"></div></div>
+    <div class="progress-info"><b>${percent}%</b><span>${rupiah(g.saved)} / ${rupiah(g.target)}</span></div>
+    <p>Target: ${g.date||'No date'}</p>
+    <div class="actions" style="margin-top:13px">
+      <button class="btn btn-small" onclick="openDeposit(${g.id})">+ Save money</button>
+      <button class="btn btn-light btn-small" onclick="deleteGoal(${g.id})">Delete</button>
+    </div>
+  </div>`;
+}
+function wishlistCard(w){
+  const g=data.goals.find(x=>x.wishlistId===w.id);
+  return `<div class="item-card">
+    <div class="item-icon">${escapeHTML(w.emoji||'♡')}</div>
+    <h3>${escapeHTML(w.name)}</h3>
+    <p>${escapeHTML(w.category)} · ${escapeHTML(w.priority)} priority</p>
+    <div style="font-size:14px;font-weight:800;margin:12px 0">${rupiah(w.price)}</div>
+    <span class="tag">${w.status}</span>
+    <div class="actions" style="margin-top:13px">
+      ${!g&&w.status!=='Purchased'?`<button class="btn btn-small" onclick="createGoalFrom(${w.id})">Make a saving goal</button>`:''}
+      ${g?`<button class="btn btn-light btn-small" onclick="showPage('goals')">View goal →</button>`:''}
+      <button class="btn btn-light btn-small" onclick="deleteWishlist(${w.id})">Delete</button>
+    </div>
+  </div>`;
+}
+function createGoalFrom(id){
+  const w=data.wishlist.find(x=>x.id===id);
+  openGoal(w);
+}
+function transactionTable(list){
+  if(!list.length)return '<div class="empty"><span>🧾</span>No transactions yet. Start tracking your money!</div>';
+  return `<div class="table-wrap"><table><thead><tr><th>DESCRIPTION</th><th>CATEGORY</th><th>DATE</th><th>AMOUNT</th><th></th></tr></thead><tbody>
+  ${[...list].sort((a,b)=>b.date.localeCompare(a.date)).map(t=>`<tr>
+    <td>${escapeHTML(t.description)}</td><td>${escapeHTML(t.category)}</td><td>${t.date}</td>
+    <td class="${t.type}">${t.type==='income'?'+':'−'}${rupiah(t.amount)}</td>
+    <td><button class="btn btn-danger btn-small" onclick="deleteTransaction(${t.id})">×</button></td>
+  </tr>`).join('')}</tbody></table></div>`;
+}
+
+function render(){
+  const w=weekly(), totalSaved=data.goals.reduce((a,g)=>a+g.saved,0);
+  const totalTarget=data.goals.reduce((a,g)=>a+g.target,0);
+  const goalPct=totalTarget?Math.min(100,Math.round(totalSaved/totalTarget*100)):0;
+  const spent=w.expense, budget=data.budget;
+  const pct=budget?Math.round(spent/budget*100):0;
+  const remaining=budget-spent;
+  const start=weekStart(),end=weekEnd();
+  const range=fmtDate(start)+' – '+fmtDate(end);
+  document.getElementById('weekRange').textContent=range;
+  document.getElementById('financeWeek').textContent=range;
+  document.getElementById('statSavings').textContent=rupiah(totalSaved);
+  document.getElementById('statWishlist').textContent=data.wishlist.length;
+  document.getElementById('statIncome').textContent=rupiah(w.income);
+  document.getElementById('statExpense').textContent=rupiah(w.expense);
+  document.getElementById('goalSaved').textContent=rupiah(totalSaved);
+  document.getElementById('goalTarget').textContent=rupiah(totalTarget);
+  document.getElementById('goalBar').style.width=goalPct+'%';
+  document.getElementById('goalPercent').textContent=goalPct+'% completed';
+  document.getElementById('goalCount').textContent=data.goals.length+' goals';
+  document.getElementById('budgetPercent').textContent=pct+'%';
+  document.getElementById('budgetBar').style.width=Math.min(100,pct)+'%';
+  document.getElementById('budgetBar').classList.toggle('pink',pct>100);
+  document.getElementById('budgetSpent').textContent=rupiah(spent)+' spent';
+  document.getElementById('budgetRemaining').textContent=budget?rupiah(remaining)+' '+(remaining<0?'over budget':'left'):'No budget set';
+  document.getElementById('budgetMessage').textContent=!budget?'Set your weekly budget to get started.':pct>100?'Oops! You have exceeded your weekly budget.':pct>=80?'You are getting close to your budget limit.':'You are doing well. Keep it up! ♡';
+  document.getElementById('financeIncome').textContent=rupiah(w.income);
+  document.getElementById('financeExpense').textContent=rupiah(w.expense);
+  document.getElementById('financeBalance').textContent=rupiah(w.balance);
+  document.getElementById('financeLeft').textContent=budget?rupiah(remaining):'—';
+  document.getElementById('financePercent').textContent=pct+'%';
+  document.getElementById('financeBar').style.width=Math.min(100,pct)+'%';
+  document.getElementById('financeSpent').textContent=rupiah(spent)+' spent';
+  document.getElementById('financeBudget').textContent='Budget: '+rupiah(budget);
+  document.getElementById('wishlistList').innerHTML=data.wishlist.length?data.wishlist.map(wishlistCard).join(''):'<div class="empty"><span>♡</span>Your wishlist is waiting for its first dream!</div>';
+  document.getElementById('overviewWishlist').innerHTML=data.wishlist.length?data.wishlist.slice(0,3).map(wishlistCard).join(''):'<div class="empty"><span>☁️</span>Add your first little dream here.</div>';
+  document.getElementById('goalList').innerHTML=data.goals.length?data.goals.map(goalCard).join(''):'<div class="empty"><span>🎯</span>No saving goals yet. Pick a dream from your wishlist!</div>';
+  document.getElementById('transactionList').innerHTML=transactionTable(data.transactions);
+  document.getElementById('recentTransactions').innerHTML=transactionTable(data.transactions.slice().sort((a,b)=>b.date.localeCompare(a.date)).slice(0,4));
+}
+
+document.getElementById('today').textContent=new Date().toLocaleDateString('en-US',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+render();
+</script>
+</body>
+</html>
